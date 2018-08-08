@@ -61,6 +61,7 @@ func (session *Session) get(bean interface{}) (bool, error) {
 			!session.statement.unscoped {
 			has, err := session.cacheGet(bean, sqlStr, args...)
 			if err != ErrCacheFailed {
+				defer session.resetStatement()
 				return has, err
 			}
 		}
