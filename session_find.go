@@ -181,6 +181,7 @@ func (session *Session) find(rowsSlicePtr interface{}, condiBean ...interface{})
 			!session.statement.unscoped {
 			err = session.cacheFind(sliceElementType, sqlStr, rowsSlicePtr, args...)
 			if err != ErrCacheFailed {
+				session.resetStatement()
 				return err
 			}
 			err = nil // !nashtsai! reset err to nil for ErrCacheFailed
