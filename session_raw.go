@@ -201,3 +201,15 @@ func (session *Session) Exec(sqlStr string, args ...interface{}) (sql.Result, er
 
 	return session.exec(sqlStr, args...)
 }
+
+func (session *Session) PrepareStmt(sqlStr string) (*core.Stmt, error) {
+	defer session.resetStatement()
+
+	session.queryPreprocess(&sqlStr) // TODO: lastSQLArgs
+
+	if session.engine.showSQL {
+		// TODO
+	}
+
+	return session.doPrepare(session.DB(), sqlStr)
+}
