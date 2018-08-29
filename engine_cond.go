@@ -128,8 +128,9 @@ func (engine *Engine) buildConds(table *core.Table, bean interface{},
 			if !requiredField && fieldValue.Uint() == 0 {
 				continue
 			}
-			t := int64(fieldValue.Uint())
-			val = reflect.ValueOf(&t).Interface()
+			val = fieldValue.Interface()
+			// t := int64(fieldValue.Uint())
+			// val = reflect.ValueOf(&t).Interface()
 		case reflect.Struct:
 			if fieldType.ConvertibleTo(core.TimeType) {
 				t := fieldValue.Convert(core.TimeType).Interface().(time.Time)

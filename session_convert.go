@@ -655,7 +655,7 @@ func (session *Session) value2Interface(col *core.Column, fieldValue reflect.Val
 		}
 		return nil, ErrUnSupportedType
 	case reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uint:
-		return int64(fieldValue.Uint()), nil
+		return uint64(fieldValue.Uint()), nil
 	default:
 		return fieldValue.Interface(), nil
 	}
