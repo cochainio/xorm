@@ -440,7 +440,9 @@ func (session *Session) slice2Bean(scanResults []interface{}, fields []string, b
 				if fieldValue.Kind() == reflect.Ptr && fieldValue.IsNil() {
 					fieldValue.Set(reflect.New(fieldValue.Type().Elem()))
 				}
-				fieldValue.Interface().(core.Conversion).FromDB(data)
+				if err := fieldValue.Interface().(core.Conversion).FromDB(data); err != nil {
+					return nil, err
+				}
 			} else {
 				return nil, err
 			}
