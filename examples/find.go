@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/cochainio/xorm"
+        _ "github.com/mattn/go-sqlite3"
 )
 
 // User describes a user

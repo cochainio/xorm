@@ -5,6 +5,7 @@
 package xorm
 
 import (
+	"context"
 	"database/sql"
 	"reflect"
 	"time"
@@ -27,7 +28,7 @@ type Interface interface {
 	Delete(interface{}) (int64, error)
 	Distinct(columns ...string) *Session
 	DropIndexes(bean interface{}) error
-	Exec(string, ...interface{}) (sql.Result, error)
+	Exec(sqlOrAgrs ...interface{}) (sql.Result, error)
 	Exist(bean ...interface{}) (bool, error)
 	Find(interface{}, ...interface{}) error
 	FindAndCount(interface{}, ...interface{}) (int64, error)
@@ -72,6 +73,8 @@ type EngineInterface interface {
 
 	Before(func(interface{})) *Session
 	Charset(charset string) *Session
+	ClearCache(...interface{}) error
+	Context(context.Context) *Session
 	CreateTables(...interface{}) error
 	DBMetas() ([]*core.Table, error)
 	Dialect() core.Dialect
@@ -83,16 +86,22 @@ type EngineInterface interface {
 	GetTableMapper() core.IMapper
 	GetTZDatabase() *time.Location
 	GetTZLocation() *time.Location
+	MapCacher(interface{}, core.Cacher) error
 	NewSession() *Session
 	NoAutoTime() *Session
 	Quote(string) string
 	SetCacher(string, core.Cacher)
+	SetConnMaxLifetime(time.Duration)
 	SetDefaultCacher(core.Cacher)
+	SetLogger(logger core.ILogger)
 	SetLogLevel(core.LogLevel)
 	SetMapper(core.IMapper)
+	SetMaxOpenConns(int)
+	SetMaxIdleConns(int)
 	SetSchema(string)
 	SetTZDatabase(tz *time.Location)
 	SetTZLocation(tz *time.Location)
+	ShowExecTime(...bool)
 	ShowSQL(show ...bool)
 	Sync(...interface{}) error
 	Sync2(...interface{}) error
