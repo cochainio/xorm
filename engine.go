@@ -591,6 +591,9 @@ func (engine *Engine) Cascade(trueOrFalse ...bool) *Session {
 func (engine *Engine) Where(query interface{}, args ...interface{}) *Session {
 	session := engine.NewSession()
 	session.isAutoClose = true
+	if query == nil {
+		return session
+	}
 	return session.Where(query, args...)
 }
 
